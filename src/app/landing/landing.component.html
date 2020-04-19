@@ -1,1 +1,12 @@
-<p>landing works!</p>
+<form [formGroup]="signInForm">
+  <mat-form-field appearance="outline">
+    <input matInput type="text" formControlName="nickname" placeholder="Nickname"  required />
+  </mat-form-field>
+
+  <button mat-flat-button type="button">
+    Join
+  </button>
+  <button mat-flat-button type="button" color="primary">
+    Host
+  </button>
+</form>
