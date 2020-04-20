@@ -1,12 +1,70 @@
-<form [formGroup]="signInForm">
-  <mat-form-field appearance="outline">
-    <input matInput type="text" formControlName="nickname" placeholder="Nickname"  required />
-  </mat-form-field>
 
-  <button mat-flat-button type="button">
-    Join
-  </button>
-  <button mat-flat-button type="button" color="primary">
-    Host
-  </button>
-</form>
+<ng-container *ngIf="currentPage===HOME">
+  <p>
+    <button mat-flat-button type="button" (click)="willJoinChat()">
+      Join Chat
+    </button>
+  </p>
+  <p>
+    <button mat-flat-button type="button" color="primary" (click)="willHostChat()">
+      Host Chat
+    </button>
+  </p>
+</ng-container>
+
+<ng-container *ngIf="currentPage===HOST">
+  <form [formGroup]="signInForm">
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Nickname</mat-label>
+        <input matInput type="text" formControlName="nickname" placeholder="Nickname" required />
+        <mat-error *ngIf="getError('nickname')">
+          {{ getError('nickname') }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <button mat-flat-button color="primary" type="submit" (click)="hostChat()" [disabled]="signInForm.invalid || processing">
+        Enter
+      </button>
+    </p>
+    <p>
+      <button mat-flat-button type="button" (click)="goBack()">
+        Back
+      </button>
+    </p>
+  </form>
+</ng-container>
+
+<ng-container *ngIf="currentPage===JOIN">
+  <form [formGroup]="signInForm">
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Nickname</mat-label>
+        <input matInput type="text" formControlName="nickname" placeholder="Nickname" required />
+        <mat-error *ngIf="getError('nickname')">
+          {{ getError('nickname') }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Chat ID</mat-label>
+        <input matInput type="text" formControlName="chatId" placeholder="Chat ID" required />
+        <mat-error *ngIf="getError('chatId')">
+          {{ getError('chatId') }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <button mat-flat-button color="primary" type="submit" (click)="joinChat()" [disabled]="signInForm.invalid || processing">
+        Enter
+      </button>
+    </p>
+    <p>
+      <button mat-flat-button type="button" (click)="goBack()">
+        Back
+      </button>
+    </p>
+  </form>
+</ng-container>
