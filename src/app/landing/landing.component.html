@@ -1,20 +1,15 @@
-
-<ng-container *ngIf="currentPage===HOME">
-  <p>
-    <button mat-flat-button type="button" (click)="willJoinChat()">
-      Join Chat
-    </button>
-  </p>
-  <p>
+<mat-card class="LandingCard">
+  <div *ngIf="currentPage===HOME" class="LandingCard-content">
     <button mat-flat-button type="button" color="primary" (click)="willHostChat()">
       Host Chat
     </button>
-  </p>
-</ng-container>
+    <button mat-stroked-button type="button" color="primary" (click)="willJoinChat()">
+      Join Chat
+    </button>
+  </div>
 
-<ng-container *ngIf="currentPage===HOST">
-  <form [formGroup]="signInForm">
-    <p>
+  <ng-container *ngIf="currentPage===HOST">
+    <form [formGroup]="signInForm" class="LandingCard-content">
       <mat-form-field appearance="outline">
         <mat-label>Nickname</mat-label>
         <input matInput type="text" formControlName="nickname" placeholder="Nickname" required />
@@ -22,23 +17,17 @@
           {{ getError('nickname') }}
         </mat-error>
       </mat-form-field>
-    </p>
-    <p>
       <button mat-flat-button color="primary" type="submit" (click)="hostChat()" [disabled]="signInForm.invalid || processing">
         Enter
       </button>
-    </p>
-    <p>
-      <button mat-flat-button type="button" (click)="goBack()">
+      <button mat-stroked-button type="button" (click)="goBack()">
         Back
       </button>
-    </p>
-  </form>
-</ng-container>
+    </form>
+  </ng-container>
 
-<ng-container *ngIf="currentPage===JOIN">
-  <form [formGroup]="signInForm">
-    <p>
+  <ng-container *ngIf="currentPage===JOIN">
+    <form [formGroup]="signInForm" class="LandingCard-content">
       <mat-form-field appearance="outline">
         <mat-label>Nickname</mat-label>
         <input matInput type="text" formControlName="nickname" placeholder="Nickname" required />
@@ -46,8 +35,6 @@
           {{ getError('nickname') }}
         </mat-error>
       </mat-form-field>
-    </p>
-    <p>
       <mat-form-field appearance="outline">
         <mat-label>Chat ID</mat-label>
         <input matInput type="text" formControlName="chatId" placeholder="Chat ID" required />
@@ -55,16 +42,12 @@
           {{ getError('chatId') }}
         </mat-error>
       </mat-form-field>
-    </p>
-    <p>
       <button mat-flat-button color="primary" type="submit" (click)="joinChat()" [disabled]="signInForm.invalid || processing">
         Enter
       </button>
-    </p>
-    <p>
-      <button mat-flat-button type="button" (click)="goBack()">
+      <button mat-stroked-button type="button" (click)="goBack()">
         Back
       </button>
-    </p>
-  </form>
-</ng-container>
+    </form>
+  </ng-container>
+</mat-card>
