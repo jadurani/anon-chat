@@ -1,0 +1,20 @@
+:host {
+  margin: auto;
+}
+
+.LandingCard {
+  min-width: 300px;
+  display: flex;
+  align-items: center;
+  transition: ease 0.5s height;
+}
+
+.LandingCard-content {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+button {
+  margin: 8px;
+}
