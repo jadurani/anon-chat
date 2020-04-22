@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "sample-anon-chat": {
+      "hosting": {
+        "anon-chat": [
+          "sample-anon-chat"
+        ]
+      }
+    }
+  }
+}
