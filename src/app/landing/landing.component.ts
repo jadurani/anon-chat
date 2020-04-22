@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ChatService } from '@shared/services/chat.service';
+import { UserService } from '@shared/services/user.service';
 
 
 
@@ -20,6 +21,7 @@ export class LandingComponent {
 
   constructor(
     private fb: FormBuilder,
+    private userService: UserService,
     private chatService: ChatService,
   ) { }
 
@@ -42,24 +44,30 @@ export class LandingComponent {
     this.currentPage = this.HOME;
   }
 
-  joinChat() {
-    const { nickname, chatId } = this.signInForm.value
-    this.processing = true;
-    this.chatService
-      .joinChatGroup(nickname, chatId)
-      .then(() => console.log('then'))
-      .catch(() => console.log('catch'))
-      .finally(() => this.processing = false)
+  async joinChat() {
+    // const { nickname, chatId } = this.signInForm.value
+    // this.processing = true;
+    // // try {
+    // //   const userObj = await this.userService.createUser(nickname);
+    // //   this.chatService.joinChatGroup(userObj, chatId)
+    // // } catch (error) {
+    // //   console.log(error);
+    // // } finally {
+    // //   this.processing = false;
+    // // }
   }
 
-  hostChat() {
+  async hostChat() {
     const { nickname } = this.signInForm.value
     this.processing = true;
-    this.chatService
-      .createChatGroup(nickname)
-      .then(() => console.log('then'))
-      .catch(() => console.log('catch'))
-      .finally(() => this.processing = false)
+    try {
+      const userObj = await this.userService.createUser(nickname);
+      this.chatService.createChatGroup(userObj)
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.processing = false;
+    }
   }
 
   public getError(controlName: string): string {
