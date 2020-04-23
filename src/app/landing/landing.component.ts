@@ -45,16 +45,16 @@ export class LandingComponent {
   }
 
   async joinChat() {
-    // const { nickname, chatId } = this.signInForm.value
-    // this.processing = true;
-    // // try {
-    // //   const userObj = await this.userService.createUser(nickname);
-    // //   this.chatService.joinChatGroup(userObj, chatId)
-    // // } catch (error) {
-    // //   console.log(error);
-    // // } finally {
-    // //   this.processing = false;
-    // // }
+    const { nickname, chatId } = this.signInForm.value
+    this.processing = true;
+    try {
+      await this.userService.createUser(nickname);
+      await this.chatService.joinChatGroup(nickname, chatId)
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.processing = false;
+    }
   }
 
   async hostChat() {
@@ -62,7 +62,7 @@ export class LandingComponent {
     this.processing = true;
     try {
       const userObj = await this.userService.createUser(nickname);
-      this.chatService.createChatGroup(userObj)
+      await this.chatService.createChatGroup(userObj)
     } catch (error) {
       console.log(error);
     } finally {

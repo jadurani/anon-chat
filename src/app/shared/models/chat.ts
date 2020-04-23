@@ -7,6 +7,6 @@ export interface ChatGroup {
 
 export interface ChatMessage {
   timeSent?: string;
-  sentBy?: User;
+  sender?: User;
   text: string;
 }

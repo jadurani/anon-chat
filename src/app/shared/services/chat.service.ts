@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { User } from '@shared/models/user';
 
@@ -19,28 +20,30 @@ export class ChatService {
     return this.rtdb.list(`${CHATS}/${chatId}`).valueChanges();
   }
 
-  // async sendMessage(
-  //   disposalId: string,
-  //   sender: string,
-  //   message: string
-  // ): Promise<void> {
-  //   const chatRef = this.rtdb.list(`${CHATS}/${disposalId}`);
-  //   await chatRef.push({
-  //     sender,
-  //     message,
-  //   });
-  // }
+  async sendMessage(userObj: User, text: string): Promise<void> {
+    await this.rtdb.list(`${CHATS}/${this.chatId}/messagesList`).push({
+      sender: userObj,
+      text,
+      timeSent: new Date()
+    });
+  }
 
-  async joinChatGroup(userObj: User, chatId: string) {
-    // const key = this.rtdb.createPushId();
+  async joinChatGroup(nickname: string, chatId: string) {
+    const value = await this.rtdb.object(`${CHATS}/${chatId}`)
+                                  .valueChanges()
+                                  .pipe(first())
+                                  .toPromise()
 
-    // this.rtdb.list(`${CHATS}/${chatId}/messagesList`)
-    // await this.rtdb.list(CHATS).set(key, {
-    //   host: userObj,
-    //   text: `${userObj.name} created this chat group.`,
-    //   timeSent: new Date()
-    // });
-    // this.chatId = key;
+    if (!value) {
+      throw `Chat group with ${chatId} doesn't exist`;
+    }
+
+    await this.rtdb.list(`${CHATS}/${chatId}/messagesList`).push({
+      text: `${nickname} joined`,
+      timeSent: new Date()
+    });
+
+    this.chatId = chatId;
   }
 
   async createChatGroup(userObj: User): Promise<void> {
