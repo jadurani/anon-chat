@@ -17,11 +17,11 @@ export class ChatService {
   ) { }
 
   getMessages(chatId: string): Observable<any[]> {
-    return this.rtdb.list(`${CHATS}/${chatId}`).valueChanges();
+    return this.rtdb.list(`${CHATS}/${chatId}/messagesList`).valueChanges();
   }
 
-  async sendMessage(userObj: User, text: string): Promise<void> {
-    await this.rtdb.list(`${CHATS}/${this.chatId}/messagesList`).push({
+  async sendMessage(userObj: User, chatId: string, text: string): Promise<void> {
+    await this.rtdb.list(`${CHATS}/${chatId}/messagesList`).push({
       sender: userObj,
       text,
       timeSent: new Date()

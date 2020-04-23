@@ -1,0 +1,20 @@
+<div class="ChatComponent">
+  <div class="ChatComponent-body">
+    <div *ngFor="let chatItem of chatMessages">
+      {{ chatItem.text }}
+    </div>
+  </div>
+
+  <div class="ChatComponent-footer">
+    <mat-form-field floatLabel="never" appearance="outline">
+      <textarea
+        matInput
+        [(ngModel)]="msg"
+        autofocus="true"
+        placeholder="Type a message..."></textarea>
+    </mat-form-field>
+    <button mat-icon-button (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>
