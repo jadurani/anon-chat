@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ChatService } from '@shared/services/chat.service';
 import { UserService } from '@shared/services/user.service';
+import { Router } from '@angular/router';
 
 
 
@@ -21,6 +22,7 @@ export class LandingComponent {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private userService: UserService,
     private chatService: ChatService,
   ) { }
@@ -49,7 +51,8 @@ export class LandingComponent {
     this.processing = true;
     try {
       await this.userService.createUser(nickname);
-      await this.chatService.joinChatGroup(nickname, chatId)
+      await this.chatService.joinChatGroup(nickname, chatId);
+      this.router.navigate(['c']);
     } catch (error) {
       console.log(error);
     } finally {
@@ -62,7 +65,8 @@ export class LandingComponent {
     this.processing = true;
     try {
       const userObj = await this.userService.createUser(nickname);
-      await this.chatService.createChatGroup(userObj)
+      await this.chatService.createChatGroup(userObj);
+      this.router.navigate(['c']);
     } catch (error) {
       console.log(error);
     } finally {

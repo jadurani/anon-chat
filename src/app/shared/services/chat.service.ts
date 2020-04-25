@@ -24,7 +24,7 @@ export class ChatService {
     await this.rtdb.list(`${CHATS}/${chatId}/messagesList`).push({
       sender: userObj,
       text,
-      timeSent: new Date()
+      timeSent: new Date().toString()
     });
   }
 
@@ -40,7 +40,7 @@ export class ChatService {
 
     await this.rtdb.list(`${CHATS}/${chatId}/messagesList`).push({
       text: `${nickname} joined`,
-      timeSent: new Date()
+      timeSent: new Date().toString()
     });
 
     this.chatId = chatId;
@@ -52,7 +52,7 @@ export class ChatService {
       host: userObj,
       messagesList: [{
         text: `${userObj.name} created this chat group.`,
-        timeSent: new Date()
+        timeSent: new Date().toString()
       }]
     });
     this.chatId = key;

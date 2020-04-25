@@ -12,20 +12,22 @@ import { Subscription } from 'rxjs';
 })
 export class ChatComponent implements OnInit {
 
-  chatId = '-M5_Y-N2hIwN-QH904vQ';
-
   msg: string;
   sending = false;
-  currentUser: User
-
+  currentUser: User;
+  chatId: string;
   chatMessages: ChatMessage[];
-
   chatSub: Subscription;
 
   constructor(
     private chatService: ChatService,
     private userService: UserService,
-  ) { }
+  ) {
+    this.currentUser = this.userService.userObj;
+    this.chatId = this.chatService.chatId;
+    // TO DO: display this in the UI
+    console.log(this.chatId)
+  }
 
   ngOnInit() {
     this.chatSub = this.chatService
@@ -35,17 +37,11 @@ export class ChatComponent implements OnInit {
       );
   }
 
-
   async sendMessage() {
     this.sending = true;
-    const userObj: User = {
-      id: 'rawrawr',
-      name: 'kiyaaaaa',
-      avatarUrl: ''
-    }
-    await this.chatService.sendMessage(userObj, this.chatId, this.msg);
+    await this.chatService
+      .sendMessage(this.currentUser, this.chatId, this.msg);
     this.msg = '';
     this.sending = false;
   }
-
 }
