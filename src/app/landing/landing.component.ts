@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ChatService } from '@shared/services/chat.service';
+import { UserService } from '@shared/services/user.service';
+import { Router } from '@angular/router';
 
 
 
@@ -17,7 +20,12 @@ export class LandingComponent {
   JOIN = 2;
   currentPage = this.HOME;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private userService: UserService,
+    private chatService: ChatService,
+  ) { }
 
   willJoinChat() {
     this.currentPage = this.JOIN;
@@ -38,9 +46,33 @@ export class LandingComponent {
     this.currentPage = this.HOME;
   }
 
-  joinChat() {}
+  async joinChat() {
+    const { nickname, chatId } = this.signInForm.value
+    this.processing = true;
+    try {
+      await this.userService.createUser(nickname);
+      await this.chatService.joinChatGroup(nickname, chatId);
+      this.router.navigate(['c']);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.processing = false;
+    }
+  }
 
-  hostChat() {}
+  async hostChat() {
+    const { nickname } = this.signInForm.value
+    this.processing = true;
+    try {
+      const userObj = await this.userService.createUser(nickname);
+      await this.chatService.createChatGroup(userObj);
+      this.router.navigate(['c']);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.processing = false;
+    }
+  }
 
   public getError(controlName: string): string {
     const field = this.signInForm.get(controlName);

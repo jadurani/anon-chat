@@ -1,0 +1,38 @@
+<div class="ChatComponent">
+  <div class="ChatComponent-body">
+    <ng-container *ngIf="chatMessages else loading">
+      <div *ngFor="let chatItem of chatMessages">
+        <ng-container *ngIf="!!chatItem?.sender && currentUser else nonChatItem">
+          <div class="ChatBox"
+            [ngClass]="{'ChatBox--own': chatItem.sender.id === currentUser.id}">
+            {{ chatItem.text }}
+          </div>
+        </ng-container>
+        <ng-template #nonChatItem>
+          <div class="ChatNote">
+            {{ chatItem.text }}
+          </div>
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="ChatComponent-footer">
+    <mat-form-field floatLabel="never" appearance="outline">
+      <textarea
+        matInput
+        [(ngModel)]="msg"
+        autofocus="true"
+        placeholder="Type a message..."></textarea>
+    </mat-form-field>
+    <button mat-icon-button (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="ChatComponent-loading-container">
+    <mat-spinner diameter="30"></mat-spinner>
+  </div>
+</ng-template>

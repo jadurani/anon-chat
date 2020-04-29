@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "anon-chat",
+      "public": "dist/anon-chat",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}
